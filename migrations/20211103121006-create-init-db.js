@@ -48,6 +48,9 @@ module.exports = {
         bio: {
           type: Sequelize.STRING(200),
         },
+        saldo: {
+          type: Sequelize.INTEGER,
+        },
         createdAt: {
           type: Sequelize.DATE,
           allowNull: false,
