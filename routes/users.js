@@ -28,11 +28,16 @@ router.get("/:uid_card", async (req, res) => {
 /* http://159.89.205.119/users */
 router.post("/", async (req, res) => {
   const schema = {
-    username: "string",
-    uid_card: "string",
-    nik: "string",
-    role: "string",
-    counter: "number",
+    userName: "string",
+    email: "string",
+    userRole: "string",
+    // doorKey: "string", -- AUTO GENERATED
+    fullName: "string",
+    phone: "number",
+    gender: "string",
+    profileImage: "string|optional",
+    bio: "string|optional",
+    saldo: "number|optional",
   };
 
   const validate = v.validate(req.body, schema);
@@ -43,11 +48,11 @@ router.post("/", async (req, res) => {
 
   const checkUser = await User.findAll({
     where: {
-      uid_card: req.body.uid_card,
+      userName: req.body.userName,
     },
   });
   if (checkUser.length) {
-    return res.status(400).json({ message: "CARD ALREADY REGISTERED" });
+    return res.status(400).json({ message: "USER ALREADY REGISTERED" });
   }
 
   const user = await User.create(req.body);
@@ -61,18 +66,6 @@ router.put("/:id", async (req, res) => {
   let user = await User.findByPk(id);
   if (!user) {
     return res.status(400).json({ message: "id user not found" });
-  }
-
-  const schema = {
-    username: "string|optional",
-    nik: "string|optional",
-    role: "string|optional",
-    counter: "number|optional",
-  };
-
-  const validate = v.validate(req.body, schema);
-  if (validate.length) {
-    return res.status(400).json(validate);
   }
 
   const updUser = await user.update(req.body);
