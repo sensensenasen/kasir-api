@@ -8,6 +8,7 @@ const { Op } = require("sequelize");
 const { User } = require("../models");
 
 /* GET USER LIST */
+/* http://localhost:3001/users/ */
 router.get("/", async (req, res) => {
   const user = await User.findAll();
   res.status(200).json(user);

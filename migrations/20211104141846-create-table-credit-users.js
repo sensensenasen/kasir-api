@@ -31,6 +31,10 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.NOW,
       },
+      updatedAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.createTable("toko_capacity", {
@@ -47,6 +51,10 @@ module.exports = {
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
     });

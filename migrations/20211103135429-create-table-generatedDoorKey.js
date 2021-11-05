@@ -16,6 +16,10 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
+      userId: {
+        type: Sequelize.INTEGER,
+        references: { model: "users", key: "id" },
+      },
       doorKey: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4, // Or DataTypes.UUIDV1
@@ -23,6 +27,10 @@ module.exports = {
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
       validUntil: {
