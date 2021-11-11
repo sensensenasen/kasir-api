@@ -14,6 +14,18 @@ router.get("/", async (req, res) => {
   res.status(200).json(user);
 });
 
+/* GET USER LIST */
+/* http://localhost:3001/users/ */
+router.get("/token/:doorKey", async (req, res) => {
+  const { doorKey } = req.params;
+  const user = await User.findOne({
+    where: {
+      doorKey: doorKey,
+    },
+  });
+  res.status(200).json(user);
+});
+
 /* REGISTERING NEW USER */
 /* http://localhost:3001/users/register */
 router.post("/register", async (req, res) => {
@@ -86,7 +98,10 @@ router.post("/login", async (req, res) => {
   if (user) {
     const validPass = await bcrypt.compare(password, user.password);
     if (validPass) {
-      res.status(200).json(user);
+      res.status(200).json({
+        isAuth: true,
+        token: user.doorKey,
+      });
     } else {
       res.status(400).json("Wrong password!");
     }

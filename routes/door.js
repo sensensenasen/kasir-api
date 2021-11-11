@@ -78,7 +78,7 @@ router.post("/generate", async (req, res) => {
 });
 
 /* GATE OUT USER */
-/* http://localhost:3001/gate/out */
+/* http://localhost:3001/gate/out/:barcodeuser */
 router.get("/out/:doorKey", async (req, res) => {
   try {
     const { doorKey } = req.params;
