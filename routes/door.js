@@ -56,7 +56,7 @@ router.get("/in/:doorKey", async (req, res) => {
 
     res.status(200).json({
       code: "success",
-      type: "Access Granted!",
+      status: "Access Granted!",
       message: "Silakan masuk toko.",
     });
   } catch (error) {
@@ -123,7 +123,7 @@ router.get("/out/:doorKey", async (req, res) => {
     await toko.destroy();
     res.status(200).json({
       code: "success",
-      type: "Access Granted!",
+      status: "Access Granted!",
       message: "Selamat jalan! Terima kasih telah berbelanja di toko kami.",
     });
   } catch (error) {
