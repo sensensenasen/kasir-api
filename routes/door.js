@@ -7,6 +7,8 @@ const { DoorLogs, GeneratedDoorKey, User, TokoCapacity } = require("../models");
 /* GET DOOR LOG LIST */
 /* http://localhost:3001/gate/logs */
 router.get("/logs", async (req, res) => {
+  // #swagger.tags = ['Gate']
+  // #swagger.description = 'Endpoint to get logs of gate'
   const logs = await DoorLogs.findAll();
   res.status(200).json(logs);
 });
@@ -14,6 +16,8 @@ router.get("/logs", async (req, res) => {
 /* GATE IN USER */
 /* http://localhost:3001/gate/in/:barcodeuser */
 router.get("/in/:doorKey", async (req, res) => {
+  // #swagger.tags = ['Gate']
+  // #swagger.description = 'Endpoint to gate in as user'
   try {
     const { doorKey } = req.params;
     const user = await User.findOne({
@@ -67,6 +71,8 @@ router.get("/in/:doorKey", async (req, res) => {
 /* GENERATE DOOR KEY */
 /* http://localhost:3001/gate/generate */
 router.post("/generate", async (req, res) => {
+  // #swagger.tags = ['Gate']
+  // #swagger.description = 'Endpoint to generate barcode gate'
   const { userId } = req.body;
 
   var minutesToAdd = 10;
@@ -80,6 +86,8 @@ router.post("/generate", async (req, res) => {
 /* GATE OUT USER */
 /* http://localhost:3001/gate/out/:barcodeuser */
 router.get("/out/:doorKey", async (req, res) => {
+  // #swagger.tags = ['Gate']
+  // #swagger.description = 'Endpoint to gate out'
   try {
     const { doorKey } = req.params;
     const generated = await GeneratedDoorKey.findOne({

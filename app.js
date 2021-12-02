@@ -4,8 +4,10 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 require("dotenv").config();
 var cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger_output.json");
 
-var indexRouter = require("./routes/index");
+// var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var doorRouter = require("./routes/door");
 
@@ -18,7 +20,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use("/users", usersRouter);
 app.use("/gate", doorRouter);
 

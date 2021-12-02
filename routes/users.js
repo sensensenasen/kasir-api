@@ -10,13 +10,17 @@ const { User } = require("../models");
 /* GET USER LIST */
 /* http://localhost:3001/users/ */
 router.get("/", async (req, res) => {
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Endpoint to get all users'
   const user = await User.findAll();
   res.status(200).json(user);
 });
 
 /* GET USER LIST */
-/* http://localhost:3001/users/ */
+/* http://localhost:3001/token/ */
 router.get("/token/:doorKey", async (req, res) => {
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Endpoint to get a specific user by token doorKey.'
   const { doorKey } = req.params;
   const user = await User.findOne({
     where: {
@@ -29,6 +33,8 @@ router.get("/token/:doorKey", async (req, res) => {
 /* REGISTERING NEW USER */
 /* http://localhost:3001/users/register */
 router.post("/register", async (req, res) => {
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Endpoint to regiser user'
   const schema = {
     userName: "string",
     password: "string",
@@ -68,6 +74,8 @@ router.post("/register", async (req, res) => {
 /* LOGIN WITH USERNAME OR EMAIL */
 /* http://localhost:3001/users/register */
 router.post("/login", async (req, res) => {
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Endpoint to Login'
   const { userName, password, email } = req.body;
 
   const schema = {
@@ -113,6 +121,8 @@ router.post("/login", async (req, res) => {
 /* UPDATE USER BY ID */
 /* http://localhost:3001/users/id/2 */
 router.put("/id/:id", async (req, res) => {
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Endpoint to update user'
   const id = req.params.id;
   let user = await User.findByPk(id);
   if (!user) {
@@ -126,6 +136,8 @@ router.put("/id/:id", async (req, res) => {
 /* DELETE USER BY ID */
 /* http://localhost:3001/users/id/3 */
 router.delete("/id/:id", async (req, res) => {
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Endpoint to delete user'
   const id = req.params.id;
   let user = await User.findByPk(id);
   if (!user) {
