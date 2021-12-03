@@ -35,6 +35,11 @@ router.get("/token/:doorKey", async (req, res) => {
 router.post("/register", async (req, res) => {
   // #swagger.tags = ['User']
   // #swagger.description = 'Endpoint to regiser user'
+  /*    #swagger.parameters['obj'] = {
+                in: 'body',
+                description: 'Registering new user.',
+                schema: { $ref: '#/definitions/User' }
+        } */
   const schema = {
     userName: "string",
     password: "string",
