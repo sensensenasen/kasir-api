@@ -6,7 +6,7 @@ const doc = {
     title: "Kasir API",
     description: "Ini adalah dokumentasi dari Kasir API, digunakan untuk kebutuhan aplikasi kasir",
   },
-  host: "http://kasir-api.app.senas.xyz",
+  host: "kasir-api.app.senas.xyz",
   basePath: "/",
   schemes: ["http"],
   consumes: ["application/json"],
