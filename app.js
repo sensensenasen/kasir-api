@@ -10,6 +10,7 @@ const swaggerFile = require("./swagger_output.json");
 // var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var doorRouter = require("./routes/door");
+var productsRouter = require("./routes/products");
 
 var app = express();
 
@@ -24,5 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use("/users", usersRouter);
 app.use("/gate", doorRouter);
+app.use("/products", productsRouter);
+app.use("/uploads", express.static("./uploads"));
 
 module.exports = app;

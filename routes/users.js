@@ -6,6 +6,21 @@ const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 
 const { User } = require("../models");
+const path = require("path");
+
+//Upload image middleware
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, './uploads');
+    },
+  filename: function (req, file, cb) {
+      cb(null, 'ava-' + Date.now() + path.extname(file.originalname));
+  }
+});
+const uploadImg = multer({storage: storage}).single('profileImage');
+var fs = require('fs');
+
 
 /* GET USER LIST */
 /* http://localhost:3001/users/ */
@@ -49,11 +64,9 @@ router.post("/register", async (req, res) => {
     fullName: "string",
     phone: "string",
     gender: "string",
-    profileImage: "string|optional",
     bio: "string|optional",
     saldo: "number|optional",
   };
-
   const validate = v.validate(req.body, schema);
 
   if (validate.length) {
@@ -75,6 +88,51 @@ router.post("/register", async (req, res) => {
   const user = await User.create(req.body);
   res.status(200).json(user);
 });
+
+router.post("/uploads", uploadImg, async (req, res) => {
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Endpoint to uploads profile image users'
+  const { id, prevProfileImage } = req.body;
+  const { size, mimetype, filename, path } = req.file;
+  let user = await User.findByPk(id);
+  if (!user) {
+    return res.status(400).json({ message: "id user not found" });
+  }
+
+  // if(size > 1048576){
+  //   console.log(size);
+  //   if(mimetype === 'image/jpeg'){
+  //     console.log(mimetype);
+  //     await sharp('./uploads/' + filename)
+  //       .jpeg({ quality: 60 })
+  //       .toFile('./uploads/cmp-' + filename, function(err) {
+  //         console.log(err);
+  //       });
+  //   }
+  //   else if(mimetype === 'image/png'){
+  //     console.log(mimetype);
+  //     await sharp('./uploads/' + filename)
+  //       .png({ quality: 60 })
+  //       .toFile('./uploads/cmp-' + filename, function(err) {
+  //         console.log(err);
+  //       });
+  //   }
+  // }
+  if(prevProfileImage){
+    try{
+      fs.unlinkSync('./' + prevProfileImage)
+    } catch(err){
+      console.log(err)
+    }
+  }
+  
+
+  const update = {
+    profileImage: path
+  }
+  const updUser = await user.update(update);
+  res.status(200).json(updUser);
+})
 
 /* LOGIN WITH USERNAME OR EMAIL */
 /* http://localhost:3001/users/register */
@@ -114,6 +172,7 @@ router.post("/login", async (req, res) => {
       res.status(200).json({
         isAuth: true,
         token: user.doorKey,
+        userRole: user.userRole,
       });
     } else {
       res.status(400).json("Wrong password!");
@@ -133,7 +192,6 @@ router.put("/id/:id", async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: "id user not found" });
   }
-
   const updUser = await user.update(req.body);
   res.status(200).json(updUser);
 });

@@ -96,6 +96,39 @@
         }
       }
     },
+    "/users/uploads": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint to uploads profile image users",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "prevProfileImage": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
     "/users/login": {
       "post": {
         "tags": [
@@ -269,6 +302,123 @@
           }
         }
       }
+    },
+    "/products/": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Endpoint to get all products",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Endpoint to add new product",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Adding new product.",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/products/uploads": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Endpoint to uploads product image",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "prevProductImage": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/products/id/{id}": {
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Endpoint to update product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Endpoint to delete product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -318,6 +468,39 @@
         "saldo": {
           "type": "number",
           "example": 1500000
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "productName": {
+          "type": "string",
+          "example": "Indomilk Minuman Susu UHT 115ml"
+        },
+        "productVendor": {
+          "type": "string",
+          "example": "Indomilk"
+        },
+        "productCode": {
+          "type": "string",
+          "example": "8993007000086"
+        },
+        "productDescription": {
+          "type": "string",
+          "example": "Untuk membantu pertumbuhan si kecil"
+        },
+        "productImage": {
+          "type": "string",
+          "example": "url;url"
+        },
+        "quantityInStock": {
+          "type": "number",
+          "example": 100
+        },
+        "price": {
+          "type": "number",
+          "example": 17200
         }
       }
     }

@@ -7,6 +7,7 @@ const doc = {
     description: "Ini adalah dokumentasi dari Kasir API, digunakan untuk kebutuhan aplikasi kasir",
   },
   host: "kasir-api.app.senas.xyz",
+  // host: "localhost:3001",
   basePath: "/",
   schemes: ["http"],
   consumes: ["application/json"],
@@ -42,6 +43,15 @@ const doc = {
       profileImage: "link url",
       bio: "deskripsi bio",
       saldo: 1500000,
+    },
+    Product: {
+      productName: "Indomilk Minuman Susu UHT 115ml",
+      productVendor: "Indomilk",
+      productCode: "8993007000086",
+      productDescription: "Untuk membantu pertumbuhan si kecil",
+      productImage: "url;url",
+      quantityInStock: 100,
+      price: 17200,
     },
   },
 };
