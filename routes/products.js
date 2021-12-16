@@ -20,12 +20,29 @@ const uploadImg = multer({storage: storage}).single('productImage');
 var fs = require('fs');
 
 /* GET PRODUCT LIST */
-/* http://localhost:3001/product/ */
+/* http://localhost:3001/products/ */
 router.get("/", async (req, res) => {
   // #swagger.tags = ['Products']
   // #swagger.description = 'Endpoint to get all products'
   const products = await Products.findAll();
   res.status(200).json(products);
+});
+
+/* GET PRODUCT LIST */
+/* http://localhost:3001/products/barcode/ */
+router.get("/barcode/:barcode", async (req, res) => {
+  // #swagger.tags = ['Products']
+  // #swagger.description = 'Endpoint to get a specific product by barcode.'
+  const { barcode } = req.params;
+  const prod = await Products.findOne({
+    where: {
+      productCode: barcode,
+    },
+  });
+  if(!prod){
+    return res.status(400).json({ message: "product not found" });
+  }
+  res.status(200).json(prod);
 });
 
 /* REGISTERING NEW PRODUCT */
