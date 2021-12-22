@@ -5,7 +5,7 @@
     "title": "Kasir API",
     "description": "Ini adalah dokumentasi dari Kasir API, digunakan untuk kebutuhan aplikasi kasir"
   },
-  "host": "kasir-api.app.senas.xyz",
+  "host": "localhost:3001",
   "basePath": "/",
   "tags": [
     {
@@ -341,6 +341,30 @@
         }
       }
     },
+    "/products/barcode/{barcode}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Endpoint to get a specific product by barcode.",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
     "/products/uploads": {
       "post": {
         "tags": [
@@ -402,6 +426,99 @@
           "Products"
         ],
         "description": "Endpoint to delete product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/orders/": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Endpoint to add new orders",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "orderItems": {
+                  "example": "any"
+                },
+                "customerid": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                },
+                "transactionAmount": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/orders/all": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Endpoint to get all orders",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/orders/id/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Endpoint to get orders",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Endpoint to get orders",
         "parameters": [
           {
             "name": "id",
