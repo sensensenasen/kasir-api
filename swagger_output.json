@@ -5,7 +5,7 @@
     "title": "Kasir API",
     "description": "Ini adalah dokumentasi dari Kasir API, digunakan untuk kebutuhan aplikasi kasir"
   },
-  "host": "localhost:3001",
+  "host": "kasir-api.app.senas.xyz",
   "basePath": "/",
   "tags": [
     {
@@ -518,7 +518,7 @@
         "tags": [
           "Orders"
         ],
-        "description": "Endpoint to get orders",
+        "description": "Endpoint to update orders",
         "parameters": [
           {
             "name": "id",
