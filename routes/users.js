@@ -5,7 +5,7 @@ const v = new Validator();
 const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 
-const { User } = require("../models");
+const { User, TransactionHistory } = require("../models");
 const path = require("path");
 
 //Upload image middleware
@@ -84,6 +84,7 @@ router.post("/register", async (req, res) => {
 
   //encrypting password before inserting to database
   req.body.password = await bcrypt.hash(req.body.password, 10);
+  req.body.saldo = 0;
 
   const user = await User.create(req.body);
   res.status(200).json(user);
@@ -211,4 +212,35 @@ router.delete("/id/:id", async (req, res) => {
   res.status(200).json({ message: "user deleted" });
 });
 
+/* TOPUP USER BY ID */
+/* http://localhost:3001/users/topup/2 */
+router.put("/topup/:id", async (req, res) => {
+  // #swagger.tags = ['User']
+  // #swagger.description = 'Endpoint to topupsaldo'
+  const amount = req.body.amount
+  const id = req.params.id;
+  let user = await User.findByPk(id);
+  if (!user) {
+    return res.status(400).json({ message: "id user not found" });
+  }
+  
+  var trObj = {
+    userId: id,
+    amount: amount,
+    type: "IN"
+  }
+  const trHistory = await TransactionHistory.create(trObj)
+  const saldoplustopup = parseInt(user.saldo) + parseInt(amount)
+  var usrObj = {
+    saldo: saldoplustopup
+  }
+
+  const updUser = await user.update(usrObj);
+
+  const result = {
+    user: updUser,
+    trHistory: trHistory
+  }
+  res.status(200).json(result);
+});
 module.exports = router;

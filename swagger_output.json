@@ -214,6 +214,42 @@
         }
       }
     },
+    "/users/topup/{id}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint to topupsaldo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
     "/gate/logs": {
       "get": {
         "tags": [
@@ -519,6 +555,30 @@
           "Orders"
         ],
         "description": "Endpoint to update orders",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/orders/bayar/{id}": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "description": "Endpoint to bayar orders",
         "parameters": [
           {
             "name": "id",

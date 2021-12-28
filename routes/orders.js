@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { Orders, OrderDetails, User, Products } = require("../models");
+const { Orders, OrderDetails, User, Products, TransactionHistory } = require("../models");
 const { Op } = require("sequelize");
 
 /* NEW ORDER */
@@ -73,6 +73,26 @@ router.put("/id/:id", async (req, res) => {
   
     res.status(200).json(result);
   });
+
+  /* BAYAR ORDER */
+/* http://localhost:3001/orders/id/4 */
+router.put("/bayar/:id", async (req, res) => {
+  // #swagger.tags = ['Orders']
+  // #swagger.description = 'Endpoint to bayar orders'
+  const { id } = req.params;
+  let order = await Orders.findByPk(id);
+  if (!order) {
+      return res.status(400).json({ message: "id order not found" });
+  }
+
+  const updOrder = await order.update(req.body);
+
+  await updateSaldo(updOrder.customerId, updOrder.transactionAmount);
+
+  const result = await getOrderbyId(updOrder.id);
+
+  res.status(200).json(result);
+});
 
 function pad(n, length) {
   var len = length - ("" + n).length;
@@ -173,6 +193,33 @@ async function getUserDetails(custid) {
     },
   });
   return user;
+}
+
+async function updateSaldo(custid, amount) {
+  let user = await User.findByPk(custid);
+  if (!user) {
+    return res.status(400).json({ message: "id user not found" });
+  }
+  
+  var trObj = {
+    userId: custid,
+    amount: amount,
+    type: "OUT"
+  }
+  const trHistory = await TransactionHistory.create(trObj)
+  const saldoplustopup = parseInt(user.saldo) - parseInt(amount)
+  var usrObj = {
+    saldo: saldoplustopup
+  }
+
+  const updUser = await user.update(usrObj);
+
+  const result = {
+    user: updUser,
+    trHistory: trHistory
+  }
+
+  return result
 }
 
 module.exports = router;
